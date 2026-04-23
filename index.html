@@ -400,26 +400,30 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
-    section { padding: 5rem 5% 3rem; }
-    nav { padding: 1rem 5%; }
-    #hero { padding-top: 7rem; min-height: auto; padding-bottom: 4rem; }
-    h1 { font-size: 2.2rem; line-height: 1.1; letter-spacing: -0.02em; word-break: keep-all; }
-    .hero-sub { font-size: 0.95rem; }
+    section { padding: 5rem 4% 3rem; }
+    nav { padding: 1rem 4%; }
+    #hero { padding: 7rem 4% 4rem; min-height: auto; }
+    h1 { font-size: clamp(1.65rem, 8.5vw, 2.2rem); line-height: 1.12; letter-spacing: -0.01em; }
+    .hero-content { max-width: 100%; }
+    .hero-sub { font-size: 0.93rem; }
     .btn-primary { width: 100%; justify-content: center; font-size: 0.9rem; }
-    .stats-row { gap: 1.8rem; }
-    .stat strong { font-size: 1.6rem; }
+    .stats-row { gap: 1.6rem; }
+    .stat strong { font-size: 1.5rem; }
     .roles-grid { grid-template-columns: 1fr; }
     .beneficios-grid { grid-template-columns: 1fr 1fr; }
     .cultura-grid { grid-template-columns: 1fr 1fr; }
-    .hero-tag { font-size: 0.72rem; padding: 0.35rem 0.85rem; }
-    h2 { font-size: 1.7rem; }
+    .hero-tag { font-size: 0.7rem; padding: 0.32rem 0.8rem; max-width: 100%; }
+    h2 { font-size: 1.65rem; }
     .tech-row { gap: 0.8rem; }
     .tech-pill { font-size: 0.82rem; padding: 0.5rem 1.1rem; }
     footer { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
   }
 
   @media (max-width: 400px) {
-    h1 { font-size: 1.9rem; }
+    section { padding: 5rem 3.5% 3rem; }
+    nav { padding: 1rem 3.5%; }
+    #hero { padding: 7rem 3.5% 4rem; }
+    h1 { font-size: clamp(1.45rem, 7.5vw, 1.8rem); }
     .beneficios-grid { grid-template-columns: 1fr; }
     .cultura-grid { grid-template-columns: 1fr; }
   }
@@ -449,7 +453,7 @@
   <div class="hero-glow2"></div>
   <div class="hero-content">
     <div class="hero-tag">Vacantes disponibles · Trabajo remoto</div>
-    <h1>Únete al equipo que<br>conecta el <em>entretenimiento</em>.</h1>
+    <h1>Únete al equipo que conecta el <em>entretenimiento</em>.</h1>
     <p class="hero-sub">En Wave Play buscamos talento dinámico para gestionar las mejores plataformas de streaming del mundo. Trabaja de forma remota y crece con nosotros.</p>
     <a href="#roles" class="btn-primary">
       Ver vacantes disponibles
