@@ -23,22 +23,28 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   html { scroll-behavior: smooth; }
 
   body {
     background: var(--bg);
     color: var(--white);
     font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
     line-height: 1.7;
     overflow-x: hidden;
   }
 
+  /* ── FADE IN ON SCROLL ── */
   .reveal {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.65s ease, transform 0.65s ease;
   }
-  .reveal.visible { opacity: 1; transform: none; }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
 
   /* ── NAV ── */
   nav {
@@ -52,9 +58,11 @@
   .logo {
     font-family: 'Syne', sans-serif;
     font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em;
-    color: var(--white); text-decoration: none;
+    color: var(--white);
+    text-decoration: none;
   }
   .logo span { color: var(--magenta); }
+  nav a.nav-cta { display: none; }
 
   /* ── SECTIONS ── */
   section { padding: 7rem 6% 4rem; }
@@ -64,35 +72,116 @@
     margin-bottom: 1rem;
   }
   h1, h2, h3 { font-family: 'Syne', sans-serif; }
-  h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: var(--white); margin-bottom: 1rem; }
+  h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700; line-height: 1.2;
+    color: var(--white); margin-bottom: 1rem;
+  }
   p { color: var(--white-dim); max-width: 58ch; }
 
   /* ── HERO ── */
   #hero {
-    min-height: 100vh; display: flex; align-items: center;
-    padding-top: 8rem; position: relative; overflow: hidden;
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding-top: 8rem;
+    position: relative; overflow: hidden;
   }
   .hero-glow {
     position: absolute; top: -10%; right: -8%;
-    width: 55vw; height: 55vw; border-radius: 50%;
+    width: 55vw; height: 55vw; max-width: 680px; max-height: 680px;
+    border-radius: 50%;
     background: radial-gradient(circle, rgba(232,25,123,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute; bottom: -5%; left: -5%;
+    width: 40vw; height: 40vw; max-width: 480px; max-height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29,219,139,0.06) 0%, transparent 70%);
+    pointer-events: none;
   }
   .hero-content { position: relative; z-index: 1; max-width: 780px; }
   .hero-tag {
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--magenta-glow); border: 1px solid var(--magenta-dim);
-    color: var(--magenta); font-size: 0.78rem; font-weight: 500;
-    padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.8rem;
+    background: var(--magenta-glow);
+    border: 1px solid var(--magenta-dim);
+    color: var(--magenta);
+    font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em;
+    padding: 0.4rem 1rem; border-radius: 100px;
+    margin-bottom: 1.8rem;
   }
-  h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.05; margin-bottom: 1.4rem; }
+  .hero-tag::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--magenta);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  h1 {
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 800; line-height: 1.05; letter-spacing: -0.03em;
+    color: var(--white); margin-bottom: 1.4rem;
+  }
   h1 em { font-style: normal; color: var(--magenta); }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--white-dim);
+    max-width: 54ch; margin-bottom: 2.4rem;
+  }
   .btn-primary {
     display: inline-flex; align-items: center; gap: 10px;
-    background: var(--magenta); color: #fff; text-decoration: none;
-    padding: 0.85rem 2rem; border-radius: 100px; font-weight: 500;
+    background: var(--magenta);
+    color: #fff; font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500;
+    padding: 0.85rem 2rem; border-radius: 100px;
+    text-decoration: none; border: none; cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 28px rgba(232,25,123,0.45); }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(232,25,123,0.45);
+  }
+  .btn-primary svg { width: 16px; height: 16px; }
+
+  /* ── STATS ── */
+  .stats-row {
+    display: flex; gap: 2.5rem; margin-top: 3.5rem;
+    flex-wrap: wrap;
+  }
+  .stat { }
+  .stat strong {
+    display: block;
+    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+    color: var(--white); line-height: 1;
+  }
+  .stat span { font-size: 0.82rem; color: var(--white-dim); }
+
+  /* ── CULTURA ── */
+  #cultura { border-top: 0.5px solid var(--border); }
+  .cultura-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1px; margin-top: 3rem;
+    border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
+  }
+  .cultura-item {
+    background: var(--bg-card);
+    padding: 2rem 1.6rem;
+    transition: background 0.25s;
+  }
+  .cultura-item:hover { background: var(--bg-card-hover); }
+  .cultura-icon {
+    width: 42px; height: 42px; border-radius: 10px;
+    background: var(--magenta-glow); border: 1px solid var(--magenta-dim);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .cultura-icon svg { width: 20px; height: 20px; stroke: var(--magenta); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .cultura-item h3 {
+    font-size: 0.95rem; font-weight: 700; color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .cultura-item p { font-size: 0.85rem; max-width: none; }
 
   /* ── ROLES ── */
   #roles { border-top: 0.5px solid var(--border); }
@@ -101,157 +190,551 @@
     gap: 1.5rem; margin-top: 3rem;
   }
   .role-card {
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 2.2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    cursor: pointer;
+    transition: border-color 0.25s, background 0.25s, transform 0.2s;
     position: relative; overflow: hidden;
   }
-  .role-card.active { border-color: var(--magenta-dim); }
-  .role-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.2rem; }
-  .role-badge { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; }
-  .badge-atencion { background: rgba(232,25,123,0.15); color: var(--magenta); border: 1px solid var(--magenta-dim); }
-  .badge-closed { background: rgba(245,245,245,0.05); color: var(--white-dim); border: 1px solid var(--border); }
-  
-  .role-card h3 { font-size: 1.3rem; color: var(--white); margin-bottom: 0.7rem; }
-  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin: 1rem 0; }
-  .tag { font-size: 0.75rem; padding: 0.25rem 0.7rem; background: var(--white-faint); color: var(--white-dim); border-radius: 100px; }
-  .tag.salary { color: var(--green); border: 1px solid rgba(29,219,139,0.3); background: rgba(29,219,139,0.05); }
-
-  .func-list { list-style: none; margin-bottom: 1.5rem; }
-  .func-list li { font-size: 0.85rem; color: var(--white-dim); padding: 0.3rem 0; display: flex; gap: 8px; border-bottom: 1px solid var(--border); }
-  .func-list li::before { content: '›'; color: var(--magenta); font-weight: 700; }
-
-  .postulate-btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    width: 100%; padding: 0.8rem; border-radius: 100px;
-    font-weight: 600; font-size: 0.9rem; text-decoration: none;
-    transition: all 0.2s;
+  .role-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--magenta-glow);
+    opacity: 0; transition: opacity 0.3s;
   }
-  .btn-active { background: var(--magenta); color: #fff; }
-  .btn-active:hover { transform: scale(1.02); filter: brightness(1.1); }
-  .btn-disabled { background: rgba(245,245,245,0.05); color: rgba(245,245,245,0.2); cursor: not-allowed; pointer-events: none; }
+  .role-card:hover { border-color: var(--border-hover); transform: translateY(-3px); }
+  .role-card:hover::before { opacity: 1; }
+  .role-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 1.2rem; position: relative; z-index: 1;
+  }
+  .role-badge {
+    font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.8rem; border-radius: 100px;
+  }
+  .badge-atencion { background: rgba(232,25,123,0.15); color: var(--magenta); border: 1px solid var(--magenta-dim); }
+  .badge-qc { background: rgba(29,219,139,0.12); color: var(--green); border: 1px solid rgba(29,219,139,0.4); }
+  .badge-supervisor { background: rgba(245,245,245,0.08); color: var(--white-dim); border: 1px solid var(--border); }
+  .role-number {
+    font-family: 'Syne', sans-serif; font-size: 0.75rem;
+    color: rgba(245,245,245,0.2); font-weight: 700;
+  }
+  .role-card h3 {
+    font-size: 1.2rem; font-weight: 700; color: var(--white);
+    margin-bottom: 0.7rem; position: relative; z-index: 1;
+  }
+  .role-card > p {
+    font-size: 0.85rem; margin-bottom: 1.2rem; max-width: none;
+    position: relative; z-index: 1;
+  }
+  .role-detail { position: relative; z-index: 1; }
+  .role-detail h4 {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(245,245,245,0.35);
+    margin: 1rem 0 0.5rem;
+  }
+  .role-detail h4:first-child { margin-top: 0; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 0.75rem; padding: 0.25rem 0.7rem;
+    background: var(--white-faint); color: var(--white-dim);
+    border-radius: 100px; border: 1px solid var(--border);
+  }
+  .func-list { list-style: none; }
+  .func-list li {
+    font-size: 0.83rem; color: var(--white-dim);
+    padding: 0.3rem 0; border-bottom: 0.5px solid var(--border);
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .func-list li::before {
+    content: '›'; color: var(--magenta); font-weight: 700;
+    flex-shrink: 0; margin-top: 0.05rem;
+  }
+  .postulate-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 1.4rem;
+    font-size: 0.82rem; font-weight: 500; color: var(--magenta);
+    background: var(--magenta-glow); border: 1px solid var(--magenta-dim);
+    padding: 0.5rem 1.2rem; border-radius: 100px;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    position: relative; z-index: 1;
+  }
+  .postulate-btn:hover { background: var(--magenta); color: #fff; }
+  .role-card.unavailable { opacity: 0.55; cursor: default; }
+  .role-card.unavailable:hover { border-color: var(--border); transform: none; }
+  .role-card.unavailable:hover::before { opacity: 0; }
+  .unavailable-label {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 1.4rem;
+    font-size: 0.78rem; font-weight: 500; color: rgba(245,245,245,0.3);
+    background: rgba(245,245,245,0.05); border: 1px solid rgba(245,245,245,0.1);
+    padding: 0.5rem 1.2rem; border-radius: 100px;
+  }
+
+  /* ── BENEFICIOS ── */
+  #beneficios { border-top: 0.5px solid var(--border); }
+  .beneficios-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.2rem; margin-top: 3rem;
+  }
+  .beneficio-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.6rem;
+    transition: border-color 0.25s;
+  }
+  .beneficio-card:hover { border-color: var(--magenta-dim); }
+  .beneficio-num {
+    font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
+    color: var(--magenta); line-height: 1; margin-bottom: 0.6rem;
+  }
+  .beneficio-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .beneficio-card p { font-size: 0.83rem; max-width: none; }
+
+  /* ── TECH STACK ── */
+  #tech { border-top: 0.5px solid var(--border); }
+  .tech-row {
+    display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 3rem;
+  }
+  .tech-pill {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 100px; padding: 0.6rem 1.4rem;
+    font-size: 0.88rem; color: var(--white-dim);
+    transition: border-color 0.25s, color 0.25s;
+  }
+  .tech-pill:hover { border-color: var(--magenta-dim); color: var(--white); }
+  .tech-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--magenta); opacity: 0.6;
+  }
+  .tech-pill:hover .tech-dot { opacity: 1; }
 
   /* ── FAQ ── */
   #faq { border-top: 0.5px solid var(--border); }
-  .faq-list { margin-top: 3rem; }
-  .faq-item { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 1px; }
-  .faq-q {
-    width: 100%; text-align: left; background: none; border: none; padding: 1.2rem 1.6rem;
-    color: var(--white); font-weight: 500; cursor: pointer; display: flex; justify-content: space-between;
+  .faq-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 1px; }
+  .faq-item {
+    background: var(--bg-card); border-radius: 0;
+    border-left: 0.5px solid var(--border);
+    border-right: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
   }
-  .faq-a { max-height: 0; overflow: hidden; transition: all 0.3s ease; padding: 0 1.6rem; }
-  .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.2rem; }
+  .faq-item:first-child { border-top: 0.5px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; }
+  .faq-item:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+  .faq-q {
+    width: 100%; text-align: left;
+    background: none; border: none; cursor: pointer;
+    padding: 1.2rem 1.6rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 0.92rem; font-weight: 500;
+    transition: background 0.2s;
+  }
+  .faq-q:hover { background: var(--bg-card-hover); }
+  .faq-q .faq-arrow {
+    width: 18px; height: 18px; flex-shrink: 0; stroke: var(--magenta);
+    fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    transition: transform 0.3s;
+  }
+  .faq-item.open .faq-arrow { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.25s;
+    padding: 0 1.6rem;
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding: 0 1.6rem 1.2rem; }
+  .faq-a p { font-size: 0.85rem; max-width: none; }
+
+  /* ── FORM ── */
+  #postular { border-top: 0.5px solid var(--border); }
+  .form-wrap {
+    max-width: 640px; margin-top: 3rem;
+  }
+  .form-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-bottom: 1rem;
+  }
+  @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-size: 0.78rem; font-weight: 500; color: var(--white-dim); letter-spacing: 0.04em; }
+  input, select, textarea {
+    background: #111; border: 1px solid rgba(245,245,245,0.12);
+    color: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; padding: 0.75rem 1rem; border-radius: 10px;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none; -webkit-appearance: none;
+  }
+  input::placeholder, textarea::placeholder { color: rgba(245,245,245,0.25); }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--magenta);
+    box-shadow: 0 0 0 3px rgba(232,25,123,0.12);
+  }
+  textarea { resize: vertical; min-height: 90px; }
+  select option { background: #1c1c1c; }
+  .submit-btn {
+    margin-top: 0.5rem;
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--magenta); color: #fff;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500;
+    padding: 0.9rem 2.2rem; border-radius: 100px;
+    border: none; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(232,25,123,0.45);
+  }
+  .form-note {
+    font-size: 0.78rem; color: rgba(245,245,245,0.35);
+    margin-top: 1rem;
+  }
+  #form-success {
+    display: none; margin-top: 1.2rem;
+    background: rgba(29,219,139,0.1); border: 1px solid rgba(29,219,139,0.35);
+    color: var(--green); font-size: 0.88rem;
+    padding: 1rem 1.2rem; border-radius: 10px;
+  }
 
   /* ── FOOTER ── */
-  footer { border-top: 0.5px solid var(--border); padding: 3rem 6%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-  footer p { font-size: 0.75rem; color: rgba(245,245,245,0.3); }
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 2.5rem 6%;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;
+    gap: 1rem;
+  }
+  footer p { font-size: 0.78rem; color: rgba(245,245,245,0.3); max-width: none; }
+  footer .logo { font-size: 1rem; }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <a href="#" class="logo">wave<span>play</span></a>
+  <a href="#postular" class="nav-cta">Postular ahora</a>
 </nav>
 
+<!-- HERO -->
 <section id="hero">
   <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
   <div class="hero-content">
-    <div class="hero-tag">Vacantes disponibles · 100% Remoto</div>
+    <div class="hero-tag">Vacantes disponibles · Trabajo remoto</div>
     <h1>Únete al equipo que<br>conecta el <em>entretenimiento</em>.</h1>
-    <p style="margin-bottom: 2.5rem;">Gestionamos las mejores plataformas de streaming del mundo. Buscamos personas proactivas para nuestro equipo de atención.</p>
-    <a href="#roles" class="btn-primary">Ver vacantes disponibles →</a>
+    <p class="hero-sub">En Wave Play buscamos talento dinámico para gestionar las mejores plataformas de streaming del mundo. Trabaja de forma remota y crece con nosotros.</p>
+    <a href="#roles" class="btn-primary">
+      Ver vacantes disponibles
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <div class="stats-row">
+      <div class="stat">
+        <strong>1</strong>
+        <span>Vacante abierta</span>
+      </div>
+      <div class="stat">
+        <strong>100%</strong>
+        <span>Remoto</span>
+      </div>
+      <div class="stat">
+        <strong>&lt;15 min</strong>
+        <span>SLA objetivo</span>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- CULTURA -->
+<section id="cultura">
+  <div class="reveal">
+    <p class="section-label">Nuestra cultura</p>
+    <h2>Lo que nos define como equipo</h2>
+    <p>Somos un equipo pequeño y comprometido. Cada interacción con un cliente es una oportunidad para demostrar excelencia.</p>
+  </div>
+  <div class="cultura-grid reveal">
+    <div class="cultura-item">
+      <div class="cultura-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>Disciplina en protocolos</h3>
+      <p>Seguimos guías paso a paso sin atajos. La consistencia protege al cliente y al equipo.</p>
+    </div>
+    <div class="cultura-item">
+      <div class="cultura-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Trato cordial siempre</h3>
+      <p>Tratamiento formal con todos los clientes sin excepción. El respeto es innegociable.</p>
+    </div>
+    <div class="cultura-item">
+      <div class="cultura-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3>Velocidad de respuesta</h3>
+      <p>Nuestra meta es atención récord: soluciones en menos de 10–15 minutos desde el reporte.</p>
+    </div>
+    <div class="cultura-item">
+      <div class="cultura-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3>Mejora continua</h3>
+      <p>Capacitaciones semanales para mantener los procesos actualizados y al equipo alineado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
 <section id="roles">
   <div class="reveal">
-    <p class="section-label">Oportunidades</p>
-    <h2>Cargos disponibles</h2>
+    <p class="section-label">Vacantes abiertas</p>
+    <h2>Encuentra tu rol en el equipo</h2>
+    <p>Tres perfiles diferentes, un mismo estándar de calidad. Elige el que mejor se adapte a tus habilidades.</p>
   </div>
-  
   <div class="roles-grid">
-    <div class="role-card active reveal">
+
+    <!-- ATENCION -->
+    <div class="role-card reveal">
       <div class="role-header">
-        <span class="role-badge badge-atencion">Vacantes Abiertas</span>
-        <span style="color:var(--magenta); font-weight:800;">01</span>
+        <span class="role-badge badge-atencion">Vacante abierta</span>
+        <span class="role-number">01</span>
       </div>
       <h3>Atención al Cliente</h3>
-      <div class="tag-list">
-        <span class="tag salary">S/ 600 Base + S/ 200 Bono</span>
-        <span class="tag">9am - 2:30pm</span>
-        <span class="tag">2:30pm - 7pm</span>
-        <span class="tag">7pm - 11:30pm</span>
+      <p>Ventas y soporte para usuarios de plataformas de streaming. Primer punto de contacto con el cliente.</p>
+      <div class="role-detail">
+        <h4>Remuneración</h4>
+        <div class="tag-list">
+          <span class="tag">S/ 600 salario base</span>
+          <span class="tag">+ Bono hasta S/ 200</span>
+        </div>
+        <h4>Funciones principales</h4>
+        <ul class="func-list">
+          <li>Gestión de chats vía Whaticket CRM</li>
+          <li>Activación de perfiles siguiendo guías paso a paso</li>
+          <li>Limpieza de cuentas vencidas</li>
+          <li>Reporte de incidencias a proveedores</li>
+        </ul>
+        <h4>Herramientas</h4>
+        <div class="tag-list">
+          <span class="tag">Whaticket</span>
+          <span class="tag">Telegram</span>
+          <span class="tag">Excel</span>
+          <span class="tag">Roboform</span>
+        </div>
+        <h4>Horarios disponibles</h4>
+        <div class="tag-list">
+          <span class="tag">Mañana · 9am – 2:30pm</span>
+          <span class="tag">Tarde · 2:30pm – 7pm</span>
+          <span class="tag">Noche · 7pm – 11:30pm</span>
+        </div>
       </div>
-      <ul class="func-list">
-        <li>Gestión de Whaticket CRM</li>
-        <li>Activación de perfiles streaming</li>
-        <li>Limpieza de cuentas y soporte</li>
-      </ul>
-      <a href="https://forms.gle/w9cuQkyRemSzfMQZ7" target="_blank" class="postulate-btn btn-active">
-        Postular ahora
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      </a>
+      <a href="https://forms.gle/w9cuQkyRemSzfMQZ7" target="_blank" class="postulate-btn">Postular a este puesto →</a>
     </div>
 
-    <div class="role-card reveal">
+    <!-- QC -->
+    <div class="role-card unavailable reveal">
       <div class="role-header">
-        <span class="role-badge badge-closed">Cerrado</span>
-        <span style="opacity:0.2; font-weight:800;">02</span>
+        <span class="role-badge badge-qc">No disponible</span>
+        <span class="role-number">02</span>
       </div>
       <h3>Control de Calidad (QC)</h3>
-      <p style="font-size: 0.85rem; margin-bottom: 1.5rem;">Auditoría de protocolos y cumplimiento de SLAs en tiempo real.</p>
-      <div class="postulate-btn btn-disabled">No disponible</div>
+      <p>Auditor interno que garantiza que los estándares del equipo se cumplan en cada turno.</p>
+      <div class="role-detail">
+        <h4>Funciones principales</h4>
+        <ul class="func-list">
+          <li>Auditar el cumplimiento de estados de reporte</li>
+          <li>Verificar tiempos de respuesta (SLA)</li>
+          <li>Asegurar que no haya sobrellenado de cuentas</li>
+          <li>Reportes de rendimiento del equipo</li>
+        </ul>
+        <h4>Perfil ideal</h4>
+        <div class="tag-list">
+          <span class="tag">Detallista</span>
+          <span class="tag">Analítico</span>
+          <span class="tag">Proactivo</span>
+          <span class="tag">Conoce los protocolos</span>
+        </div>
+        <h4>Flujo de estados</h4>
+        <div class="tag-list">
+          <span class="tag">Pendiente</span>
+          <span class="tag">→ Solucionado</span>
+          <span class="tag">→ Entregado</span>
+        </div>
+      </div>
+      <div class="unavailable-label">Vacantes no disponibles</div>
     </div>
 
-    <div class="role-card reveal">
+    <!-- SUPERVISOR -->
+    <div class="role-card unavailable reveal">
       <div class="role-header">
-        <span class="role-badge badge-closed">Cerrado</span>
-        <span style="opacity:0.2; font-weight:800;">03</span>
+        <span class="role-badge badge-supervisor">No disponible</span>
+        <span class="role-number">03</span>
       </div>
-      <h3>Supervisor de Op.</h3>
-      <p style="font-size: 0.85rem; margin-bottom: 1.5rem;">Liderazgo de turnos y gestión de proveedores estratégicos.</p>
-      <div class="postulate-btn btn-disabled">No disponible</div>
+      <h3>Supervisor de Operaciones</h3>
+      <p>Responsable de la sostenibilidad del equipo y la coordinación operativa de todos los turnos.</p>
+      <div class="role-detail">
+        <h4>Funciones principales</h4>
+        <ul class="func-list">
+          <li>Liderazgo y coordinación de reemplazos de turno</li>
+          <li>Gestión de pagos a proveedores</li>
+          <li>Resolución de casos financieros complejos</li>
+          <li>Supervisión de capacitaciones del personal</li>
+        </ul>
+        <h4>Perfil ideal</h4>
+        <div class="tag-list">
+          <span class="tag">Liderazgo</span>
+          <span class="tag">Gestión financiera</span>
+          <span class="tag">Alta autonomía</span>
+        </div>
+        <h4>Responsabilidad clave</h4>
+        <div class="tag-list">
+          <span class="tag">Sostenibilidad del negocio</span>
+        </div>
+      </div>
+      <div class="unavailable-label">Vacantes no disponibles</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section id="beneficios">
+  <div class="reveal">
+    <p class="section-label">¿Por qué Wave Play?</p>
+    <h2>Lo que obtienes al trabajar con nosotros</h2>
+  </div>
+  <div class="beneficios-grid">
+    <div class="beneficio-card reveal">
+      <div class="beneficio-num">100%</div>
+      <h3>Trabajo remoto</h3>
+      <p>Trabaja desde donde quieras. Solo necesitas una PC estable y buena conexión a internet.</p>
+    </div>
+    <div class="beneficio-card reveal">
+      <div class="beneficio-num">+S/200</div>
+      <h3>Bono por desempeño</h3>
+      <p>Bono de hasta S/ 200 adicionales si tu puntuación de atención supera 4.3 y ejecutas los procesos correctamente según el manual.</p>
+    </div>
+    <div class="beneficio-card reveal">
+      <div class="beneficio-num">7/7</div>
+      <h3>Capacitación constante</h3>
+      <p>Sesiones semanales de actualización de procesos para que siempre estés al día.</p>
+    </div>
+    <div class="beneficio-card reveal">
+      <div class="beneficio-num">3</div>
+      <h3>Turnos flexibles</h3>
+      <p>Elige entre turno mañana, tarde o noche según tu disponibilidad real.</p>
     </div>
   </div>
 </section>
 
+<!-- TECH STACK -->
+<section id="tech">
+  <div class="reveal">
+    <p class="section-label">Herramientas del equipo</p>
+    <h2>El stack tecnológico que usamos</h2>
+    <p>Todo el trabajo se realiza con herramientas profesionales. Te capacitamos en cada una de ellas desde el primer día.</p>
+  </div>
+  <div class="tech-row reveal">
+    <div class="tech-pill"><div class="tech-dot"></div> Whaticket CRM</div>
+    <div class="tech-pill"><div class="tech-dot"></div> Telegram</div>
+    <div class="tech-pill"><div class="tech-dot"></div> Excel / Google Sheets</div>
+    <div class="tech-pill"><div class="tech-dot"></div> Roboform</div>
+    <div class="tech-pill"><div class="tech-dot"></div> ClickUp</div>
+    <div class="tech-pill"><div class="tech-dot"></div> Panel de Proveedores</div>
+  </div>
+</section>
+
+<!-- FAQ -->
 <section id="faq">
   <div class="reveal">
-    <p class="section-label">Ayuda</p>
-    <h2>Preguntas frecuentes</h2>
+    <p class="section-label">Preguntas frecuentes</p>
+    <h2>Todo lo que necesitas saber</h2>
   </div>
   <div class="faq-list reveal">
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">¿Cuánto dura la capacitación? <span>+</span></button>
-      <div class="faq-a"><p>Dura 6 días (4h/día). Son remuneradas al quedar seleccionado, pagándose en tu primer salario.</p></div>
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Necesito experiencia previa en streaming para postular?
+        <svg class="faq-arrow" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a"><p>No es obligatorio, pero sí valorado. Lo más importante es que seas ordenado, rápido para aprender protocolos y tengas disposición para seguir instrucciones al pie de la letra. Toda la capacitación se brinda desde el inicio.</p></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">¿Cómo se gana el bono de desempeño? <span>+</span></button>
-      <div class="faq-a"><p>Se mide por puntuación de atención (>4.3) y la ejecución correcta de procesos según el manual.</p></div>
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Cómo funcionan los turnos rotativos?
+        <svg class="faq-arrow" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a"><p>Los turnos son fijos con horarios definidos: Mañana (9:00am – 2:30pm), Tarde (2:30pm – 7:00pm) y Noche (7:00pm – 11:30pm). La asignación se coordina semanalmente y los reemplazos se gestionan con anticipación a través del supervisor.</p></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" onclick="toggleFaq(this)">¿Tiempo del proceso de selección? <span>+</span></button>
-      <div class="faq-a"><p>Entre 3 y 7 días hábiles durante campañas abiertas.</p></div>
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Cuáles son los requisitos técnicos mínimos?
+        <svg class="faq-arrow" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a"><p>PC o laptop funcional (no tablet), conexión a internet estable de al menos 10 Mbps, y disponibilidad para instalar las herramientas del equipo. No se requiere hardware especial.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Cómo se mide el desempeño para los bonos?
+        <svg class="faq-arrow" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a"><p>Se evalúan dos criterios: (1) puntuación de atención promedio del período — debe superar 4.3 — y (2) ejecución correcta de procesos según el manual operativo (estados de ticket Pendiente → Solucionado → Entregado, cumplimiento del SLA de 10–15 minutos, y ausencia de errores de protocolo). Ambos criterios deben cumplirse para acceder al bono completo de hasta S/ 200.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿El trabajo es presencial o completamente remoto?
+        <svg class="faq-arrow" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a"><p>El trabajo es 100% remoto. Para candidatos de la región Chincha/Ica puede haber una reunión presencial inicial de capacitación opcional, pero no es requisito obligatorio.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Cuánto tiempo toma el proceso de selección?
+        <svg class="faq-arrow" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a"><p>Entre 3 y 7 días hábiles desde que envíes tu postulación (cuando estamos en campaña abierta). Se incluye una entrevista breve por video y una prueba práctica de manejo de protocolos antes de la incorporación.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">
+        ¿Cómo es la capacitación inicial?
+        <svg class="faq-arrow" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+      <div class="faq-a"><p>Priorizamos la práctica desde el primer día. La capacitación dura 6 días con 4 horas diarias, combinando teoría de protocolos con ejercicios reales en las herramientas del equipo. Es remunerada: si quedas seleccionado para el puesto, las horas de capacitación se pagan en tu primer salario.</p></div>
     </div>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <a href="#" class="logo">wave<span>play</span></a>
-  <p>© 2026 Rouscore Solutions S.A.C. · waveplay.lat</p>
+  <p>© 2025 Rouscore Solutions S.A.C. · waveplay.lat · Todos los derechos reservados.</p>
 </footer>
 
 <script>
+  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
   }, { threshold: 0.1 });
   reveals.forEach(el => observer.observe(el));
 
+  // FAQ toggle
   function toggleFaq(btn) {
     const item = btn.closest('.faq-item');
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
+  }
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('appForm').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
   }
 </script>
 </body>
